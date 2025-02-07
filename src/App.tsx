@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { CalendarHeader } from './CalendarHeader/calendarHeader'
+import { Day } from './Components/day'
+import NewEventModal from './Components/newEventModal'
+import DeleteEventModal from './Components/deleteEventModal'
+import { InitEffects } from './Utils/effencts'
 
+type eventT = {
+  title: string,
+  date: string
+}
 function App() {
-  const [count, setCount] = useState(0)
+  const [nav, setNav] = useState(0)
+  const [clicked, setClicked] = useState("")
+  const [events, setEvents] = useState<eventT[]>(JSON.parse(localStorage.getItem("event")) ?? [])
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const eventForDate = (date: string) => events.find((e: eventT) => e.date === date)
+
+  const [days, dateDisplay] = InitEffects(nav, events)
+
+  return <>
+    <div id="container">
+      <CalendarHeader
+        dateDisplay={dateDisplay}
+        onNext={() => { setNav(nav + 1) }}
+        onBack={() => { setNav(nav + 1) }}
+      />
+
+
+      <div id="calendar">
+        {days.map((d, index) => <Day
+          key={index}
+          day={d}
+          onClick={() => { if (d.value !== "padding") { setClicked(d.date) } }} />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      {
+        clicked && !eventForDate(clicked) &&
+        <NewEventModal
+          onClose={() => setClicked("")}
+          onSave={(title: string) => {
+            setEvents([...events, { title, date: clicked }]);
+            setClicked("");
+          }}
+        />
+      }
+
+      {
+        clicked && eventForDate(clicked) &&
+        <DeleteEventModal
+          eventText={eventForDate(clicked).title}
+          onClose={() => setClicked("")}
+          onDelete={() => {
+            setEvents(events.filter(e => e.date !== clicked));
+            setClicked("");
+          }}
+        />
+      }
+
+    </div>
+  </>
 }
 
 export default App
