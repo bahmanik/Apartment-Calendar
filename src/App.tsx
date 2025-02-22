@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import "./Style/Vazirmatn-font-face.css"
 import './App.css'
 import { CalendarHeader } from './CalendarHeader/calendarHeader'
 import { Day } from './Components/day'

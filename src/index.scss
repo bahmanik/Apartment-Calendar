@@ -1,11 +1,24 @@
-$backGround: FFFCFF;
+$backGround: #FFFCFF;
 $shadow: gray;
+$textColor: white;
+$headerColor: #d36c6c;
+$buttonColor: #92a1d1;
+$dayTitleColor: #247BA0;
+$dayColor: white;
+$dayShadow: #CBD4C2;
+$dayHover: #e8faed;
+$currentDay: #e8f4fa;
+$modalColor: #e8f4fa;
+$errorColor: red;
+$negButton: #d36c6c;
+$posButton: #92a1d1;
 
 body {
+  font-family: Vazirmatn, sans-serif;
   display: flex;
   margin-top: 50px;
   justify-content: center;
-  background-color: #FFFCFF;
+  background-color: $backGround;
 }
 
 button {
@@ -13,25 +26,24 @@ button {
   margin-left: 2.5px;
   width: 75px;
   cursor: pointer;
-  box-shadow: 0px 0px 2px gray;
+  box-shadow: 0px 0px 2px $shadow;
   border: none;
   outline: none;
   padding: 5px;
   border-radius: 5px;
-  color: white;
+  color: $textColor;
 }
 
 #header {
   padding: 10px;
-  color: #d36c6c;
+  color: $headerColor;
   font-size: 26px;
-  font-family: sans-serif;
   display: flex;
   justify-content: space-between;
 }
 
 #header button {
-  background-color: #92a1d1;
+  background-color: $buttonColor;
 }
 
 #container {
@@ -41,7 +53,7 @@ button {
 #weekdays {
   width: 100%;
   display: flex;
-  color: #247BA0;
+  color: $dayTitleColor;
 }
 
 #weekdays div {
@@ -63,20 +75,20 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: $dayColor;
   margin: 5px;
-  box-shadow: 0px 0px 3px #CBD4C2;
+  box-shadow: 0px 0px 3px $dayShadow;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .day:hover {
-  background-color: #e8faed;
+  background-color: $dayHover;
 }
 
 .day+.currentDay {
-  background-color: #e8f4fa;
+  background-color: $currentDay;
 }
 
 .mofateh,
@@ -110,14 +122,13 @@ button {
 #deleteEventModal {
   z-index: 20;
   padding: 25px;
-  background-color: #e8f4fa;
+  background-color: $modalColor;
   box-shadow: 0px 0px 3px black;
   border-radius: 5px;
   width: 350px;
   top: 100px;
   left: calc(50% - 175px);
   position: absolute;
-  font-family: sans-serif;
 }
 
 #eventTitleInput {
@@ -128,21 +139,21 @@ button {
   border-radius: 3px;
   outline: none;
   border: none;
-  box-shadow: 0px 0px 3px gray;
+  box-shadow: 0px 0px 3px $shadow;
 }
 
 #eventTitleInput.error {
-  border: 2px solid red;
+  border: 2px solid $errorColor;
 }
 
 #cancelButton,
 #deleteButton {
-  background-color: #d36c6c;
+  background-color: $negButton;
 }
 
 #saveButton,
 #closeButton {
-  background-color: #92a1d1;
+  background-color: $posButton;
 }
 
 #eventText {
