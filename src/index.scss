@@ -76,14 +76,23 @@ button {
   background-color: #e8f4fa;
 }
 
+.mofateh,
+.bazarche,
 .event {
   font-size: 10px;
   padding: 3px;
-  background-color: #58bae4;
-  color: white;
+  color: black;
   border-radius: 5px;
   max-height: 55px;
   overflow: hidden;
+}
+
+.mofateh {
+  background-color: yellow;
+}
+
+.bazarche {
+  background-color: red;
 }
 
 .padding {
@@ -92,6 +101,8 @@ button {
   box-shadow: none !important;
 }
 
+#fuzzyModal,
+#overViewModal,
 #newEventModal,
 #deleteEventModal {
   z-index: 20;
