@@ -13,10 +13,10 @@ type eventT = {
   title: string,
   date: string
 }
-type apName = string
 const ApName = { mofateh: "بازارچه", bazarche: "بازارچه" }
 
 function App() {
+
 
   const [nav, setNav] = useState(0)
   const [clicked, setClicked] = useState("")
@@ -27,7 +27,7 @@ function App() {
   const [openOV, setOpenOV] = useState<boolean>(true)
 
   const eventForDate = (date: string) => events.find((e: eventT) => e.date === date)
-  const onClose = () => { setClicked(""); setOpenOV(true) }
+  const onClose = () => { setClicked(""); setOpenOV(vMode ? true : false) }
 
   const [days, dateDisplay] = InitEffects(nav, events)
   ApartmentEffect(apartment, events, setEvents)
@@ -61,7 +61,7 @@ function App() {
           onSave={(title: string) => {
             setEvents([...events, { title, date: clicked }])
             setClicked("")
-            setOpenOV(true)
+            setOpenOV(vMode ? true : false)
           }}
         />
       }
@@ -74,8 +74,8 @@ function App() {
           onClose={onClose}
           onDelete={() => {
             setEvents(events.filter(e => e.date !== clicked));
-            setOpenOV(true)
             setClicked("");
+            setOpenOV(vMode ? true : false)
           }}
         />
       }
@@ -89,7 +89,7 @@ function App() {
         />
       }
 
-      <ApButtons ApName={ApName} onAp={(e: string) => { setMode(false); setApartment(e) }} onOv={() => { setMode(true) }} />
+      <ApButtons ApName={ApName} onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }} onOv={() => { setMode(true); setOpenOV(true) }} />
 
     </div>
   </>
