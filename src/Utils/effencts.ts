@@ -15,6 +15,14 @@ export const ApartmentEffect = (apartment: string, events: eventT[], setEvents: 
 	return
 }
 
+function EnToFa(Text: number) {
+	let A = ""
+	const T = String(Text)
+	const FaNum = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹",]
+	for (let i = 0; i < T.length; i++) { A += FaNum[T[i]] }
+	return A
+}
+
 export const InitEffects: effectsT = (nav, events) => {
 	const [dateDisplay, setDateDisplay] = useState("");
 	const [days, setDays] = useState<dayT[]>([]);
@@ -29,7 +37,7 @@ export const InitEffects: effectsT = (nav, events) => {
 			const FLday = FLDAYS(year, month)
 
 			const paddingDays = week.indexOf(FLday.F)
-			setDateDisplay(` ${monthName[month]} ${year}`)
+			setDateDisplay(` ${monthName[month]} ${EnToFa(year)}`)
 			const daysArr: dayT[] = []
 			for (let i = 1; i <= paddingDays + FLday.L; i++) {
 

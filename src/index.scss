@@ -13,18 +13,29 @@ $errorColor: red;
 $negButton: #d36c6c;
 $posButton: #92a1d1;
 
+// Define day heights using viewport height units
+$dayHeightDesktop: 15vh; // Adjust as needed
+$dayHeightMobile: 10vh; // Adjust as needed
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
 body {
   font-family: Vazirmatn, sans-serif;
   display: flex;
-  margin-top: 50px;
+  margin-top: auto;
   justify-content: center;
   background-color: $backGround;
+  padding: 0 10px;
 }
 
 button {
   margin-right: 2.5px;
   margin-left: 2.5px;
   width: 75px;
+  height: 40px;
   cursor: pointer;
   box-shadow: 0px 0px 2px $shadow;
   border: none;
@@ -37,9 +48,11 @@ button {
 #header {
   padding: 10px;
   color: $headerColor;
-  font-size: 26px;
+  font-size: 2em;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 #header button {
@@ -48,17 +61,22 @@ button {
 
 #container {
   width: 770px;
+  max-width: 100%;
 }
 
+/* Weekdays: keep all elements in one line */
 #weekdays {
   width: 100%;
   display: flex;
   color: $dayTitleColor;
+  flex-wrap: nowrap;
 }
 
 #weekdays div {
-  width: 100px;
+  justify-content: center;
+  flex: 1;
   padding: 10px;
+  text-align: center;
 }
 
 #calendar {
@@ -70,9 +88,9 @@ button {
 }
 
 .day {
-  width: 100px;
+  width: calc(100% / 7 - 10px);
   padding: 10px;
-  height: 100px;
+  height: $dayHeightDesktop; // Using vh units for height
   cursor: pointer;
   box-sizing: border-box;
   background-color: $dayColor;
@@ -87,14 +105,12 @@ button {
   background-color: $dayHover;
 }
 
-.day+.currentDay {
+.day.currentDay {
   background-color: $currentDay;
 }
 
-.mofateh,
-.bazarche,
 .event {
-  font-size: 10px;
+  font-size: 0.9em;
   padding: 3px;
   color: black;
   border-radius: 5px;
@@ -127,7 +143,8 @@ button {
   border-radius: 5px;
   width: 350px;
   top: 100px;
-  left: calc(50% - 175px);
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
 }
 
@@ -168,4 +185,43 @@ button {
   height: 100vh;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  #container {
+    width: 100%;
+  }
+
+  #weekdays div {
+    padding: 5px;
+    font-size: 10px;
+  }
+
+  .day {
+    width: calc(100% / 7 - 6px);
+    height: $dayHeightMobile; // Adjusted vh height for mobile
+    margin: 3px;
+    padding: 5px;
+  }
+
+  #fuzzyModal,
+  #overViewModal,
+  #newEventModal,
+  #deleteEventModal {
+    width: 90%;
+    left: 5%;
+    top: 50px;
+    transform: none;
+  }
+
+  .buttonGroup {
+    margin-top: 30px;
+  }
 }

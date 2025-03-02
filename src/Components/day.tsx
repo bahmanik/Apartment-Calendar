@@ -19,9 +19,11 @@ export const Day = ({ apartment, vMode, day, onClick, ApName }: { apartment: str
       <div onClick={onClick} className={className}>
         {day.value === 'padding' ? '' : day.value}
 
-        {Object.keys(event).map((e) => {
-          return eventForDate(e) && <div className={e} key={e}>{eventForDate(e).title}</div>
-        })}
+        <div className="event">
+          {Object.keys(event).map((e) => {
+            return eventForDate(e) && <div className={`${e} event`} key={e}>{eventForDate(e).title}</div>
+          })}
+        </div>
       </div>
     )
   }
@@ -35,7 +37,12 @@ export const Day = ({ apartment, vMode, day, onClick, ApName }: { apartment: str
       <div onClick={onClick} className={className}>
         {day.value === 'padding' ? '' : day.value}
 
-        {eventForDate(day.date) && <div className={apartment}>{eventForDate(day.date).title}</div>}
+        {eventForDate(day.date) &&
+          <div className="event">
+            <div className={`${apartment}`}>
+              {eventForDate(day.date).title}
+            </div>
+          </div>}
       </div>
     )
   }

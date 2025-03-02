@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import "./Style/Vazirmatn-font-face.css"
 import './App.css'
-import { CalendarHeader } from './CalendarHeader/calendarHeader'
+import { CalendarHeader } from './Components/calendarHeader'
 import { Day } from './Components/day'
 import NewEventModal from './Components/newEventModal'
 import DeleteEventModal from './Components/deleteEventModal'
@@ -54,7 +54,6 @@ function App() {
 
       {openFuzzy && <FuzzyModal />}
 
-      <button onClick={() => setOpenFuzzy(true)}></button>
       {
         !openOV && clicked && !eventForDate(clicked) &&
         <NewEventModal
@@ -67,9 +66,7 @@ function App() {
         />
       }
 
-
-      {
-        !openOV && clicked && eventForDate(clicked) &&
+      {!openOV && clicked && eventForDate(clicked) &&
         <DeleteEventModal
           eventText={eventForDate(clicked).title}
           onClose={onClose}
@@ -90,8 +87,15 @@ function App() {
         />
       }
 
-      <ApButtons ApName={ApName} onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }} onOv={() => { setMode(true); setOpenOV(true) }} />
-
+      {
+        <div className="buttonGroup">
+          <ApButtons
+            ApName={ApName}
+            onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }}
+            onOpenFuzzy={() => setOpenFuzzy(true)}
+            onOv={() => { setMode(true); setOpenOV(true) }} />
+        </div>
+      }
     </div>
   </>
 }

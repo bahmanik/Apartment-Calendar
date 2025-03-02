@@ -1,6 +1,7 @@
-export const ApButtons = ({ ApName, onAp, onOv }: { ApName: { [key: string]: string }, onAp: (arg: string) => void, onOv: () => void }) => {
+export const ApButtons = ({ ApName, onAp, onOv, onOpenFuzzy }: { ApName: { [key: string]: string }, onAp: (arg: string) => void, onOv: () => void, onOpenFuzzy: () => void }) => {
   return (
-    <>
+    <div className="buttonGroup">
+      <button onClick={onOpenFuzzy}>Search</button>
       {
         Object.keys(ApName).map(e => <button
           className={e}
@@ -13,8 +14,7 @@ export const ApButtons = ({ ApName, onAp, onOv }: { ApName: { [key: string]: str
       <button
         onClick={onOv}
       >OverView</button>
-
-    </>
+    </div>
   )
 }
 
