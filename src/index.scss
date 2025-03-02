@@ -13,9 +13,12 @@ $errorColor: red;
 $negButton: #d36c6c;
 $posButton: #92a1d1;
 
-// Define day heights using viewport height units
-$dayHeightDesktop: 15vh; // Adjust as needed
-$dayHeightMobile: 10vh; // Adjust as needed
+// Define day heights
+$dayHeightDesktop: 15vh;
+$dayHeightMobile: 10vh;
+
+$buttonWidthDesktop: 70px;
+$buttonWidthMobile: 10%;
 
 #root {
   margin: 0 auto;
@@ -38,6 +41,15 @@ button {
   height: 40px;
   cursor: pointer;
   box-shadow: 0px 0px 2px $shadow;
+
+  #search {
+    border-radius: 40% 0 0 0;
+  }
+
+  #overView {
+    border-radius: 0 40% 0 0;
+  }
+
   border: none;
   outline: none;
   padding: 5px;
@@ -90,7 +102,7 @@ button {
 .day {
   width: calc(100% / 7 - 10px);
   padding: 10px;
-  height: $dayHeightDesktop; // Using vh units for height
+  height: $dayHeightDesktop;
   cursor: pointer;
   box-sizing: border-box;
   background-color: $dayColor;
@@ -110,20 +122,42 @@ button {
 }
 
 .event {
-  font-size: 0.9em;
-  padding: 3px;
   color: black;
   border-radius: 5px;
-  max-height: 55px;
   overflow: hidden;
+  font-size: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: calc($dayHeightDesktop/6);
+  justify-content: center;
 }
 
-.mofateh {
-  background-color: yellow;
+.event div {
+  flex: 1 1 50%;
 }
 
-.bazarche {
-  background-color: red;
+.Ivana4 {
+  background-color: #ff691e;
+}
+
+.Ivana3 {
+  background-color: #D3A16D;
+}
+
+.negar {
+  background-color: #f54545;
+}
+
+.Ivana1 {
+  background-color: #e2d86f;
+}
+
+.sarv {
+  background-color: #6ED36E;
+}
+
+.Ivana2 {
+  background-color: #6CD3D3;
 }
 
 .padding {
@@ -132,16 +166,13 @@ button {
   box-shadow: none !important;
 }
 
-#fuzzyModal,
-#overViewModal,
-#newEventModal,
-#deleteEventModal {
+.Modal {
   z-index: 20;
   padding: 25px;
   background-color: $modalColor;
   box-shadow: 0px 0px 3px black;
   border-radius: 5px;
-  width: 350px;
+  width: 30%;
   top: 100px;
   left: 50%;
   transform: translateX(-50%);
@@ -157,6 +188,30 @@ button {
   outline: none;
   border: none;
   box-shadow: 0px 0px 3px $shadow;
+}
+
+#overViewModal {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#overViewModal button {
+  flex: 1 1 34%;
+  margin: 0;
+  margin-top: 10px;
+
+}
+
+#overViewModal button:nth-child(odd) {
+  border-radius: 20px 0 0 20px;
+}
+
+#overViewModal button:nth-child(even) {
+  border-radius: 0 20px 20px 0;
+}
+
+#overViewModal button:last-child {
+  border-radius: 20px;
 }
 
 #eventTitleInput.error {
@@ -187,6 +242,23 @@ button {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+#SObutton button {
+  margin: 0;
+  padding: 0;
+  width: calc($buttonWidthDesktop/2);
+}
+
+#search {
+  border-radius: 40% 0 0 40%;
+}
+
+#overView {
+  border-radius: 0 40% 40% 0;
+}
+
+.buttonSVG {
+  height: 1em;
+}
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
@@ -206,16 +278,18 @@ button {
 
   .day {
     width: calc(100% / 7 - 6px);
-    height: $dayHeightMobile; // Adjusted vh height for mobile
+    height: $dayHeightMobile;
     margin: 3px;
     padding: 5px;
   }
 
-  #fuzzyModal,
-  #overViewModal,
-  #newEventModal,
-  #deleteEventModal {
-    width: 90%;
+  .event {
+    min-height: calc($dayHeightMobile/6);
+    justify-content: right;
+  }
+
+  .Modal {
+    width: 76%;
     left: 5%;
     top: 50px;
     transform: none;
@@ -223,5 +297,11 @@ button {
 
   .buttonGroup {
     margin-top: 30px;
+  }
+
+  #SObutton {
+    position: absolute;
+    bottom: 10px;
+    right: calc(50% - $buttonWidthDesktop/2);
   }
 }

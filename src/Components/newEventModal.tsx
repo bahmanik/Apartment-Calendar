@@ -6,7 +6,7 @@ const NewEventModal = ({ onSave, onClose }: { onSave: (arg: string) => void, onC
 
   return (
     <>
-      <div id="newEventModal">
+      <div className="Modal" id="newEventModal">
         <h2>New Event</h2>
 
         <input

@@ -15,7 +15,7 @@ const FuzzyModal = () => {
   const [names, setNames] = useState(fuzz.search(""))
 
   return (<>
-    <div id="fuzzyModal" >
+    <div className="Modal" id="fuzzyModal">
       <div id="query">
         <input
           onChange={e => { setNames(fuzz.search(e.target.value)) }}

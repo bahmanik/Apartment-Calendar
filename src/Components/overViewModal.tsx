@@ -3,11 +3,11 @@ type overViewT = { apartment: { [key: string]: string }, onClose: () => void, se
 export const OverViewModal = ({ apartment, onClose, setApartment }: overViewT) => {
   return (
     <>
-      <div id="overViewModal">
+      <div className="Modal" id="overViewModal">
         {Object.keys(apartment).map((e: string) => <button
           onClick={() => { setApartment(e) }}
           className={e} key={e}>
-          {e}
+          {apartment[e]}
         </button>)}
         <button
           onClick={onClose}

@@ -14,10 +14,9 @@ type eventT = {
   title: string,
   date: string
 }
-const ApName = { mofateh: "بازارچه", bazarche: "بازارچه" }
+const ApName = { Ivana1: "ایوانا ۱", Ivana2: "ایوانا ۲", Ivana3: "ایوانا ۳", Ivana4: "ایوانا ۴", sarv: "سرو", negar: "نگار" }
 
 function App() {
-
 
   const [nav, setNav] = useState(0)
   const [clicked, setClicked] = useState("")
@@ -88,13 +87,11 @@ function App() {
       }
 
       {
-        <div className="buttonGroup">
-          <ApButtons
-            ApName={ApName}
-            onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }}
-            onOpenFuzzy={() => setOpenFuzzy(true)}
-            onOv={() => { setMode(true); setOpenOV(true) }} />
-        </div>
+        <ApButtons
+          ApName={ApName}
+          onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }}
+          onOpenFuzzy={() => setOpenFuzzy(true)}
+          onOv={() => { setMode(true); setOpenOV(true) }} />
       }
     </div>
   </>

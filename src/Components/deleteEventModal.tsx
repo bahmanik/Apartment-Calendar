@@ -1,7 +1,7 @@
 const DeleteEventModal = ({ onDelete, onClose, eventText }: { onDelete: () => void, onClose: () => void, eventText: string }) => {
   return (
     <>
-      <div id="deleteEventModal">
+      <div className="Modal" id="deleteEventModal">
         <h2>Event</h2>
         <p id="eventText">{eventText}</p>
 
