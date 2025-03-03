@@ -12,6 +12,7 @@ $modalColor: #e8f4fa;
 $errorColor: red;
 $negButton: #d36c6c;
 $posButton: #92a1d1;
+$borderColor: grey;
 
 // Define day heights
 $dayHeightDesktop: 15vh;
@@ -20,9 +21,12 @@ $dayHeightMobile: 10vh;
 $buttonWidthDesktop: 70px;
 $buttonWidthMobile: 10%;
 
+$radius: 5px;
+
 #root {
   margin: 0 auto;
   text-align: center;
+  box-sizing: border-box;
 }
 
 body {
@@ -41,6 +45,7 @@ button {
   height: 40px;
   cursor: pointer;
   box-shadow: 0px 0px 2px $shadow;
+  border: 1px solid $borderColor;
 
   #search {
     border-radius: 40% 0 0 0;
@@ -50,17 +55,16 @@ button {
     border-radius: 0 40% 0 0;
   }
 
-  border: none;
   outline: none;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: $radius;
   color: $textColor;
 }
 
 #header {
   padding: 10px;
   color: $headerColor;
-  font-size: 2em;
+  font-size: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,10 +126,10 @@ button {
 }
 
 .event {
-  color: black;
-  border-radius: 5px;
+  color: $textColor;
+  border-radius: $radius;
   overflow: hidden;
-  font-size: 0.8rem;
+  font-size: 10px;
   display: flex;
   flex-wrap: wrap;
   min-height: calc($dayHeightDesktop/6);
@@ -133,37 +137,45 @@ button {
 }
 
 .event div {
-  flex: 1 1 50%;
+  flex: 1 1 40%;
 }
 
-.Ivana4 {
-  background-color: #ff691e;
-}
-
-.Ivana3 {
-  background-color: #D3A16D;
-}
-
-.negar {
-  background-color: #f54545;
+.Ivana1,
+.Ivana2,
+.Ivana3,
+.Ivana4,
+.negar,
+.sarv {
+  border: 1px solid $borderColor;
+  box-shadow: 0px 0px 2px $shadow;
 }
 
 .Ivana1 {
   background-color: #e2d86f;
 }
 
-.sarv {
-  background-color: #6ED36E;
-}
-
 .Ivana2 {
   background-color: #6CD3D3;
 }
 
+.Ivana3 {
+  background-color: #D3A16D;
+}
+
+.Ivana4 {
+  background-color: #ff691e;
+}
+
+.sarv {
+  background-color: #6ED36E;
+}
+
+.negar {
+  background-color: #f54545;
+}
+
 .padding {
   cursor: default !important;
-  background-color: #FFFCFF !important;
-  box-shadow: none !important;
 }
 
 .Modal {
@@ -171,7 +183,7 @@ button {
   padding: 25px;
   background-color: $modalColor;
   box-shadow: 0px 0px 3px black;
-  border-radius: 5px;
+  border-radius: $radius;
   width: 30%;
   top: 100px;
   left: 50%;
@@ -184,7 +196,7 @@ button {
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 25px;
-  border-radius: 3px;
+  border-radius: $radius;
   outline: none;
   border: none;
   box-shadow: 0px 0px 3px $shadow;
@@ -245,26 +257,56 @@ button {
 #SObutton button {
   margin: 0;
   padding: 0;
-  width: calc($buttonWidthDesktop/2);
 }
 
 #search {
-  border-radius: 40% 0 0 40%;
+  border-radius: $radius 0 0 $radius;
 }
 
 #overView {
-  border-radius: 0 40% 40% 0;
+  border-radius: 0 $radius $radius 0;
 }
 
 .buttonSVG {
-  height: 1em;
+  height: 16px;
+}
+
+/* Desktop Responsive Styles */
+@media (min-width: 1300px) {
+  .buttonGroup {
+    position: absolute;
+    width: calc((100vw - 790px) / 2) !important;
+    text-align: center;
+    top: 27vh;
+    left: 0;
+  }
+
+  .buttonGroup #apButton button {
+    position: relative;
+    left: calc(50% - 100px);
+    display: block;
+    width: 200px !important;
+    max-width: calc((100vw - 790px) / 2) !important;
+  }
+
+  .buttonGroup div button {
+    margin: 10px;
+    width: 100px;
+  }
+
+  #SObutton button:first-child {
+    margin-left: 22px;
+  }
+
+  #SObutton button:last-child {
+    margin-left: 0;
+  }
 }
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   body {
     flex-direction: column;
-    margin-top: 20px;
   }
 
   #container {
@@ -273,7 +315,7 @@ button {
 
   #weekdays div {
     padding: 5px;
-    font-size: 10px;
+    font-size: 0.52em;
   }
 
   .day {
@@ -296,12 +338,15 @@ button {
   }
 
   .buttonGroup {
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
   #SObutton {
-    position: absolute;
-    bottom: 10px;
+    margin: 10px;
     right: calc(50% - $buttonWidthDesktop/2);
+  }
+
+  #SObutton button {
+    width: calc($buttonWidthDesktop/2);
   }
 }
