@@ -9,28 +9,27 @@ import { InitEffects, ApartmentEffect } from './Utils/effencts'
 import { OverViewModal } from './Components/overViewModal'
 import { ApButtons } from './Components/apButtons'
 import FuzzyModal from './Components/fuzzyModal'
+import { formatDayString } from './Utils/fetch'
+import { useStateWithCallback } from './Utils/useStateWithCallback'
 
-type eventT = {
-  title: string,
-  date: string
-}
 const ApName = { Ivana1: "ایوانا ۱", Ivana2: "ایوانا ۲", Ivana3: "ایوانا ۳", Ivana4: "ایوانا ۴", sarv: "سرو", negar: "نگار" }
 
 function App() {
 
   const [nav, setNav] = useState(0)
   const [clicked, setClicked] = useState("")
-  const [apartment, setApartment] = useState("")
-  const [events, setEvents] = useState<eventT[]>(JSON.parse(localStorage.getItem(``)) ?? [])
-  const [vMode, setMode] = useState<boolean>(true)
+  const [events, setEvents] = useStateWithCallback<eventT[]>([])
   const [openFuzzy, setOpenFuzzy] = useState(false)
+  const [apartment, setApartment] = useState<string>("overView")
+  const [vMode, setMode] = useState<boolean>(true)
   const [openOV, setOpenOV] = useState<boolean>(true)
 
-  const eventForDate = (date: string) => events.find((e: eventT) => e.date === date)
-  const onClose = () => { setClicked(""); setOpenOV(vMode ? true : false) }
 
+  const eventForDate = (date: string) => events.find((e: eventT) => e.date === date)
+  const onClose = () => { setClicked(""); setOpenOV(vMode ? true : false); setApartment(vMode ? "overView" : apartment) }
   const [days, dateDisplay] = InitEffects(nav, events)
-  ApartmentEffect(apartment, events, setEvents)
+  ApartmentEffect(ApName, apartment, events, setEvents, openOV)
+
 
   return <>
     <div id="container">
@@ -42,37 +41,65 @@ function App() {
 
       <div id="calendar">
         {days.map((d, index) => <Day
-          vMode={vMode}
-          ApName={ApName}
           apartment={apartment}
+          vMode={vMode}
+          event={events}
           key={index}
           day={d}
           onClick={() => { if (d.value !== "padding") { setClicked(d.date) } }} />
         )}
       </div>
 
-      {openFuzzy && <FuzzyModal />}
+      {openFuzzy &&
+        <FuzzyModal
+          onClose={() => {
+            setOpenFuzzy(false)
+          }}
+          event={events}
+        />}
 
       {
         !openOV && clicked && !eventForDate(clicked) &&
         <NewEventModal
+          date={clicked}
           onClose={onClose}
-          onSave={(title: string) => {
-            setEvents([...events, { title, date: clicked }])
-            setClicked("")
-            setOpenOV(vMode ? true : false)
+          onSave={(eventObj: eventT, num: number) => {
+            // Create a list of new events for each day
+            const daysList = formatDayString(clicked, num);
+            const localEvents = daysList.map(day => ({ ...eventObj, date: day }));
+
+            // Check if any of the new events conflict with existing events
+            const hasConflict = localEvents.some(newEvent =>
+              events.some(existingEvent => existingEvent.date === newEvent.date)
+            );
+
+            if (hasConflict) {
+              alert("this day is already reserved");
+              setOpenOV(vMode ? true : false);
+              setClicked("");
+              throw "saving on reserved day";
+            }
+
+            // Append new events and update state
+            setEvents([...events, ...localEvents], () => {
+              setApartment("overView");
+              setOpenOV(vMode ? true : false);
+              setClicked("");
+            });
           }}
         />
       }
 
       {!openOV && clicked && eventForDate(clicked) &&
         <DeleteEventModal
-          eventText={eventForDate(clicked).title}
+          eventText={eventForDate(clicked)?.Lname}
           onClose={onClose}
           onDelete={() => {
-            setEvents(events.filter(e => e.date !== clicked));
-            setClicked("");
-            setOpenOV(vMode ? true : false)
+            setEvents(events.filter(e => e.date !== clicked), () => {
+              setClicked("");
+              setApartment(vMode ? "overView" : apartment)
+              setOpenOV(vMode ? true : false)
+            });
           }}
         />
       }
@@ -91,7 +118,7 @@ function App() {
           ApName={ApName}
           onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }}
           onOpenFuzzy={() => setOpenFuzzy(true)}
-          onOv={() => { setMode(true); setOpenOV(true) }} />
+          onOv={() => { setApartment("overView"); setMode(true); setOpenOV(true) }} />
       }
     </div>
   </>

@@ -61,6 +61,10 @@ button {
   color: $textColor;
 }
 
+input::placeholder {
+  text-align: right;
+}
+
 #header {
   padding: 10px;
   color: $headerColor;
@@ -176,6 +180,8 @@ button {
 
 .padding {
   cursor: default !important;
+  background-color: $backGround !important;
+  box-shadow: none !important;
 }
 
 .Modal {
@@ -191,15 +197,58 @@ button {
   position: absolute;
 }
 
-#eventTitleInput {
+.eventInput {
   padding: 10px;
-  width: 100%;
   box-sizing: border-box;
-  margin-bottom: 25px;
+  text-align: right;
+  margin: 10px 5px;
   border-radius: $radius;
   outline: none;
   border: none;
   box-shadow: 0px 0px 3px $shadow;
+}
+
+.miniInput {
+  width: 15%;
+}
+
+#nameInput {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#nameInput input {
+  flex: 1 2 30%;
+}
+
+#timeInput {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  flex-wrap: wrap;
+}
+
+#timeInput input {
+  flex: 1 1 10%;
+}
+
+#numberInput {
+  display: flex;
+}
+
+#numberInput input {
+  flex: 1 1 10%;
+}
+
+#budgetInput {
+  display: flex;
+}
+
+#budgetInput input {
+  width: 7%;
+  flex: 1 1 10%;
+  margin-bottom: 20px;
 }
 
 #overViewModal {
@@ -226,7 +275,7 @@ button {
   border-radius: 20px;
 }
 
-#eventTitleInput.error {
+.error {
   border: 2px solid $errorColor;
 }
 
@@ -269,6 +318,68 @@ button {
 
 .buttonSVG {
   height: 16px;
+}
+
+/* Entering: start collapsed */
+.result-enter {
+  max-height: 0;
+  opacity: 0;
+}
+
+.result {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Entering: transition to full height and opacity */
+.result-enter-active {
+  max-height: 100px;
+  /* Adjust based on your content */
+  opacity: 1;
+  transition: max-height 300ms ease-out, opacity 300ms ease-out;
+}
+
+/* Exiting: start at full height */
+.result-exit {
+  max-height: 100px;
+  opacity: 1;
+}
+
+/* Exiting: transition to collapsed */
+.result-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 300ms ease-out, opacity 300ms ease-out;
+}
+
+/* Optional styling for the result items */
+.result-item {
+  width: 100%;
+  flex: l 1 100%;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+#query {
+  display: flex
+}
+
+#query>* {
+  flex: 1 1 auto;
+  padding: 10px;
+  margin: 10px;
+}
+
+#query .eventInput {
+  margin-left: 5px;
+}
+
+
+#query #cancelButton {
+  margin-right: 0;
 }
 
 /* Desktop Responsive Styles */
@@ -348,5 +459,9 @@ button {
 
   #SObutton button {
     width: calc($buttonWidthDesktop/2);
+  }
+
+  #timeInput {
+    font-size: 8px;
   }
 }
