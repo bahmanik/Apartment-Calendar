@@ -32,13 +32,15 @@ export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: stri
 
     return (
 
-      <div onClick={onClick} className={className}>
+      <div onClick={onClick}
+        className={`${className} ${day.value === 'padding' ? apartment : ""}`}
+      >
         {day.value === 'padding' ? '' : day.value}
 
-        <div className="event">
+        < div className="event">
           {foundEvent && <div className={`${apartment} event`} key={"asd"}>{foundEvent.Fname}</div>}
         </div>
-      </div>
+      </div >
     )
   }
 }

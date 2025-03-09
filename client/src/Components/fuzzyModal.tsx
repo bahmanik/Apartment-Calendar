@@ -2,19 +2,6 @@ import Fuse from "fuse.js";
 import React, { useState } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-// Make sure eventT is defined somewhere in your codebase.
-interface eventT {
-  id: string; // Ensure each event has a unique id.
-  date: string;
-  Fname: string;
-  Lname: string;
-  number: string;
-  deposit: string;
-  totalAmount: string;
-  entryTime: string;
-  exitTime: string;
-}
-
 interface EventWithApartment extends eventT {
   parentKey: string;
 }
@@ -25,7 +12,7 @@ interface FuzzyModalProps {
 }
 
 const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
-  const [vMode] = useState<boolean>(true);
+  const [clicked, setClick] = useState<EventWithApartment | "">("");
   const [resault, setResault] = useState<EventWithApartment[]>([]);
 
   // Flatten the nested data structure and attach the parent key to each event.
@@ -74,27 +61,41 @@ const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
   }
 
   return (
-    <div className={`Modal ${vMode ? "none" : ""}`} id="fuzzyModal">
-      <div id="query">
-        <input
-          onChange={(e) => setResault(searchEvents(e.target.value))}
-          className="eventInput"
-          placeholder="Event Title or Number"
-        />
+    <div className="Modal" id="fuzzyModal">
+      {!clicked && <>
+        <div id="query">
+          <input
+            onChange={(e) => setResault(searchEvents(e.target.value))}
+            className="eventInput"
+            placeholder="Event Title or Number"
+          />
+          <button onClick={onClose} id="cancelButton">
+            Close
+          </button>
+        </div>
+        <TransitionGroup>
+          {resault.map((result) => (
+            <CSSTransition key={result.number} timeout={300} classNames="result">
+              <button
+                className={`result-item ${result.parentKey}`}
+                onClick={() => { setClick(result) }}
+              >
+                {`${result.Fname} ${result.Lname}`}
+              </button>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      </>
+      }
+      {clicked && <div>
+        <p>{`Name: ${clicked.Fname} ${clicked.Lname}`}</p>
+        <p>{`Phone number: ${clicked.number}`}</p>
+        <p>{`Date: ${clicked.date}`}</p>
         <button onClick={onClose} id="cancelButton">
-          Cancel
+          Close
         </button>
       </div>
-      <TransitionGroup>
-        {resault.map((result) => (
-          <CSSTransition key={result.id} timeout={300} classNames="result">
-            <button className="result-item">
-              {result.Fname}
-              <span className="parentKey">({result.parentKey})</span>
-            </button>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
+      }
     </div>
   );
 };

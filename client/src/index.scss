@@ -1,6 +1,6 @@
 $backGround: #FFFCFF;
 $shadow: gray;
-$textColor: white;
+$textColor: black;
 $headerColor: #d36c6c;
 $buttonColor: #92a1d1;
 $dayTitleColor: #247BA0;
@@ -155,11 +155,11 @@ input::placeholder {
 }
 
 .Ivana1 {
-  background-color: #e2d86f;
+  background-color: #FFF9C4;
 }
 
 .Ivana2 {
-  background-color: #6CD3D3;
+  background-color: #BBDEFB;
 }
 
 .Ivana3 {
@@ -167,21 +167,21 @@ input::placeholder {
 }
 
 .Ivana4 {
-  background-color: #ff691e;
+  background-color: #FFE0B2;
 }
 
 .sarv {
-  background-color: #6ED36E;
+  background-color: #C8E6C9;
 }
 
 .negar {
-  background-color: #f54545;
+  background-color: #FFCDD2;
 }
 
 .padding {
   cursor: default !important;
-  background-color: $backGround !important;
   box-shadow: none !important;
+  border: none !important;
 }
 
 .Modal {
@@ -358,7 +358,6 @@ input::placeholder {
   flex: l 1 100%;
   overflow: hidden;
   margin-bottom: 8px;
-  background: #f0f0f0;
   padding: 10px;
   border-radius: 4px;
 }
