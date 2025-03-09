@@ -2,9 +2,9 @@ import { useEffect, useState, SetStateAction, Dispatch } from "react"
 import { JDATE, formatMonth, FLDAYS } from '../Utils/fetch'
 
 type dayT = { value: number | "padding", isCurrentDay: boolean; date: string }
-type effectsT = (nav: number, events: eventT[]) => [days: dayT[], dateDisplay: string]
+type effectsT = (nav: number, events: eventWithCallback) => [days: dayT[], dateDisplay: string]
 
-export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventT[], setEvents: Dispatch<SetStateAction<eventT[]>>, vMode: boolean) => {
+export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventWithCallback, setEvents: eventWithCallback, vMode: boolean) => {
 	useEffect(() => {
 		if (!vMode && apartment && apartment !== "overView") {
 			fetch("http://localhost:5000/write", {

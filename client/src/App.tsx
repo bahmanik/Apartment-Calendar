@@ -18,7 +18,7 @@ function App() {
 
   const [nav, setNav] = useState(0)
   const [clicked, setClicked] = useState("")
-  const [events, setEvents] = useStateWithCallback<eventT[]>([])
+  const [events, setEvents] = useStateWithCallback<(newValue: eventT[], callback?: ((state: eventT[]) => void) | undefined) => void>([])
   const [openFuzzy, setOpenFuzzy] = useState(false)
   const [apartment, setApartment] = useState<string>("overView")
   const [vMode, setMode] = useState<boolean>(true)

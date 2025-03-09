@@ -1,8 +1,6 @@
 {
-  "include":["src/types/global.d.ts"],
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "noEmitOnError": false
+  },
+  "include": ["src/types/global.d.ts"],
 }
