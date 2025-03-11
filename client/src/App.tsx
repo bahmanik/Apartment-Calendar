@@ -52,6 +52,7 @@ function App() {
 
       {openFuzzy &&
         <FuzzyModal
+          vMode={vMode}
           onClose={() => {
             setOpenFuzzy(false)
           }}
@@ -117,7 +118,7 @@ function App() {
         <ApButtons
           ApName={ApName}
           onAp={(e: string) => { setMode(false); setApartment(e); setOpenOV(false) }}
-          onOpenFuzzy={() => setOpenFuzzy(true)}
+          onOpenFuzzy={() => { setApartment("overView"); setMode(true); setOpenFuzzy(true) }}
           onOv={() => { setApartment("overView"); setMode(true); setOpenOV(true) }} />
       }
     </div>
