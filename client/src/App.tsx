@@ -8,8 +8,8 @@ import DeleteEventModal from './Components/deleteEventModal'
 import { InitEffects, ApartmentEffect } from './Utils/effencts'
 import { OverViewModal } from './Components/overViewModal'
 import { ApButtons } from './Components/apButtons'
-import FuzzyModal from './Components/fuzzyModal'
 import { formatDayString } from './Utils/fetch'
+import FuzzyModal from './Components/fuzzyModal'
 import { useStateWithCallback } from './Utils/useStateWithCallback'
 
 const ApName = { Ivana1: "ایوانا ۱", Ivana2: "ایوانا ۲", Ivana3: "ایوانا ۳", Ivana4: "ایوانا ۴", sarv: "سرو", negar: "نگار" }
@@ -17,8 +17,8 @@ const ApName = { Ivana1: "ایوانا ۱", Ivana2: "ایوانا ۲", Ivana3: "
 function App() {
 
   const [nav, setNav] = useState(0)
-  const [clicked, setClicked] = useState("")
-  const [events, setEvents] = useStateWithCallback<(newValue: eventT[], callback?: ((state: eventT[]) => void) | undefined) => void>([])
+  const [clicked, setClicked] = useState<string>("")
+  const [events, setEvents] = useStateWithCallback<eventT[]>([])
   const [openFuzzy, setOpenFuzzy] = useState(false)
   const [apartment, setApartment] = useState<string>("overView")
   const [vMode, setMode] = useState<boolean>(true)
@@ -92,8 +92,8 @@ function App() {
 
       {!openOV && clicked && eventForDate(clicked) &&
         <DeleteEventModal
-          eventText={eventForDate(clicked)?.Lname}
           onClose={onClose}
+          event={eventForDate(clicked)}
           onDelete={() => {
             setEvents(events.filter(e => e.date !== clicked), () => {
               setClicked("");

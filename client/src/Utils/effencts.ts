@@ -1,10 +1,10 @@
-import { useEffect, useState, SetStateAction, Dispatch } from "react"
+import { useEffect, useState } from "react"
 import { JDATE, formatMonth, FLDAYS } from '../Utils/fetch'
 
 type dayT = { value: number | "padding", isCurrentDay: boolean; date: string }
-type effectsT = (nav: number, events: eventWithCallback) => [days: dayT[], dateDisplay: string]
+type effectsT = (nav: number, events: eventT[]) => [days: dayT[], dateDisplay: string]
 
-export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventWithCallback, setEvents: eventWithCallback, vMode: boolean) => {
+export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventT[], setEvents: eventWithCallback, vMode: boolean) => {
 	useEffect(() => {
 		if (!vMode && apartment && apartment !== "overView") {
 			fetch("http://localhost:5000/write", {
@@ -47,11 +47,20 @@ export const ApartmentEffect = (ApName: Record<string, string>, apartment: strin
 }
 
 function EnToFa(Text: number) {
-	let A = ""
-	const T = String(Text)
-	const FaNum = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹",]
-	for (let i = 0; i < T.length; i++) { A += FaNum[T[i]] }
-	return A
+	let A = "";
+	const T = String(Text); // Ensure Text is treated as a string
+	const FaNum: string[] = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+
+	for (let i = 0; i < T.length; i++) {
+		const digit = parseInt(T[i], 10);
+		if (!isNaN(digit) && digit >= 0 && digit <= 9) {
+			A += FaNum[digit]
+		} else {
+			console.error(`Invalid character: ${T[i]}`)
+		}
+	}
+
+	return A;
 }
 
 export const InitEffects: effectsT = (nav, events) => {

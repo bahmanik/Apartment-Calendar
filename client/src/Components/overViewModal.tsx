@@ -1,4 +1,3 @@
-import React from 'react'
 type overViewT = { apartment: { [key: string]: string }, onClose: () => void, setApartment: (arg1: string) => void }
 export const OverViewModal = ({ apartment, onClose, setApartment }: overViewT) => {
   return (

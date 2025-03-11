@@ -1,29 +1,31 @@
-import Fuse from "fuse.js";
-import React, { useState } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Fuse from "fuse.js"
+import React, { useState } from "react"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
+import { useRef } from "react"
 
 interface EventWithApartment extends eventT {
-  parentKey: string;
+  parentKey: string
 }
 
 interface FuzzyModalProps {
-  onClose: () => void;
-  event: eventT[]; // The nested events passed into the component.
+  onClose: () => void
+  event: eventT[] // The nested events passed into the component.
 }
 
 const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
-  const [clicked, setClick] = useState<EventWithApartment | "">("");
-  const [resault, setResault] = useState<EventWithApartment[]>([]);
+  const [clicked, setClick] = useState<EventWithApartment | "">("")
+  const [resault, setResault] = useState<EventWithApartment[]>([])
+  const nodeRefs = useRef(new Map<string, React.RefObject<HTMLButtonElement>>())
 
   // Flatten the nested data structure and attach the parent key to each event.
   // (Assuming that each item in `event` is an object with a single key pointing to an array.)
   const flattenedRecords: EventWithApartment[] = event.flatMap((item) => {
-    const key = Object.keys(item)[0];
+    const key = Object.keys(item)[0]
     return item[key].map((ev: eventT) => ({
       ...ev,
       parentKey: key,
-    }));
-  });
+    }))
+  })
 
   // Configure Fuse.js to search by "number" and a computed "fullName" field.
   const options = {
@@ -36,28 +38,28 @@ const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
       },
     ],
     threshold: 0.3, // Adjust as needed (0 = exact match, 1 = very fuzzy)
-  };
+  }
 
-  const fuse = new Fuse(flattenedRecords, options);
+  const fuse = new Fuse(flattenedRecords, options)
 
-  /**
-   * searchEvents runs a Fuse search and returns up to 10 unique results
+  /*
+   * searchEvents runs a Fuse search and returns up to 7 unique results
    * (ensuring no duplicates by number) even if some items remain from the previous state.
    */
   function searchEvents(query: string): EventWithApartment[] {
-    const results = fuse.search(query);
-    const uniqueResults: EventWithApartment[] = [];
-    const seenNumbers = new Set<string>();
+    const results = fuse.search(query)
+    const uniqueResults: EventWithApartment[] = []
+    const seenNumbers = new Set<string>()
 
     for (const result of results) {
-      const ev = result.item;
+      const ev = result.item
       if (!seenNumbers.has(ev.number)) {
-        seenNumbers.add(ev.number);
-        uniqueResults.push(ev);
-        if (uniqueResults.length >= 10) break;
+        seenNumbers.add(ev.number)
+        uniqueResults.push(ev)
+        if (uniqueResults.length >= 7) break
       }
     }
-    return uniqueResults;
+    return uniqueResults
   }
 
   return (
@@ -74,16 +76,30 @@ const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
           </button>
         </div>
         <TransitionGroup>
-          {resault.map((result) => (
-            <CSSTransition key={result.number} timeout={300} classNames="result">
-              <button
-                className={`result-item ${result.parentKey}`}
-                onClick={() => { setClick(result) }}
+          {resault.map((result) => {
+            if (!nodeRefs.current.has(result.number)) {
+              nodeRefs.current.set(result.number, React.createRef()) // ✅ Store ref for each item
+            }
+
+            const nodeRef = nodeRefs.current.get(result.number)! // ✅ Get the stored ref
+
+            return (
+              <CSSTransition
+                key={result.number}
+                nodeRef={nodeRef} // ✅ Pass stable ref
+                timeout={300}
+                classNames="result"
               >
-                {`${result.Fname} ${result.Lname}`}
-              </button>
-            </CSSTransition>
-          ))}
+                <button
+                  ref={nodeRef} // ✅ Attach stored ref to button
+                  className={`result-item ${result.parentKey}`}
+                  onClick={() => setClick(result)}
+                >
+                  {`${result.Fname} ${result.Lname}`}
+                </button>
+              </CSSTransition>
+            )
+          })}
         </TransitionGroup>
       </>
       }
@@ -97,8 +113,8 @@ const FuzzyModal: React.FC<FuzzyModalProps> = ({ onClose, event }) => {
       </div>
       }
     </div>
-  );
-};
+  )
+}
 
-export default FuzzyModal;
+export default FuzzyModal
 

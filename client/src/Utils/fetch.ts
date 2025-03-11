@@ -17,21 +17,21 @@ export function JDATE(): { y: number, m: number, d: number } {
 	return { y: jy, m: jm, d: jd }
 }
 
-export const getObjectDepth = (obj) => {
+export const getObjectDepth = (obj: unknown): number => {
 	if (typeof obj !== "object" || obj === null) {
 		return 0; // Base case: not an object
 	}
 
 	let maxDepth = 0;
 
-	for (const key in obj) {
-		if (obj.hasOwnProperty(key)) {
-			maxDepth = Math.max(maxDepth, getObjectDepth(obj[key]));
+	for (const key in obj as Record<string, unknown>) {
+		if ((obj as Record<string, unknown>).hasOwnProperty(key)) {
+			maxDepth = Math.max(maxDepth, getObjectDepth((obj as Record<string, unknown>)[key]));
 		}
 	}
 
 	return maxDepth + 1; // Add 1 for the current level
-}
+};
 
 
 //the date we use is combination of month and nav.
@@ -57,7 +57,7 @@ function formatDay(date: string, num: number): string {
 		let Y = Number(year);
 		let M = Number(month);
 		const D = Number(day);
-		const L = jalaali.jalaaliMonthLength(year, month);
+		const L = jalaali.jalaaliMonthLength(Number(year), Number(month));
 
 		if (D + 1 > L) {
 			[Y, M] = formatMonth(Y, M + 1);

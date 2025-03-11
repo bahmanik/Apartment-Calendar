@@ -2,7 +2,7 @@ import { getObjectDepth } from "../Utils/fetch";
 
 type day = { value: number | "padding", isCurrentDay: boolean; date: string }
 
-export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: string, vMode: boolean, event: eventT[], day: day, onClick: () => void }) => {
+export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: string, vMode: boolean, event: eventT[] | EventGroup, day: day, onClick: () => void }) => {
 
   const className = `day ${day.value === 'padding' ? 'padding' : ''} ${day.isCurrentDay ? 'currentDay' : ''}`;
 
@@ -10,7 +10,7 @@ export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: stri
 
     const eventDivs = event.map(Element => {
       const apartm = Object.keys(Element)[0]
-      return Element[apartm].map(eventObj => {
+      return Element[apartm].map((eventObj: eventT) => {
         return eventObj.date === day.date && <div className={`${apartm} event`} key={apartm}></div>
       })
     })
@@ -28,7 +28,7 @@ export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: stri
   }
   else {
 
-    const foundEvent = event.find((e: EventT) => e.date === day.date);
+    const foundEvent = event.find((e: eventT) => e.date === day.date);
 
     return (
 

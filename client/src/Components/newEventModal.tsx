@@ -1,8 +1,6 @@
 import { useState } from 'react';
+import { ChangeEvent } from "react";
 
-const handleChange = (e) => {
-  setData({ ...data, [e.target.name]: e.target.value });
-};
 const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: eventT, arg2: number) => void, onClose: () => void }) => {
 
   const formObj = {
@@ -20,7 +18,7 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({})
   const [form, setForm] = useState<{ [key: string]: string }>(formObj)
 
-  const onChange = (e: object, handler: (arg1: string) => boolean) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>, handler: (arg1: string) => boolean) => {
     const { name, value } = e.target
     setForm(pValue => ({ ...pValue, [name]: value }))
     setErrors((pErrors => ({ ...pErrors, [name]: handler(value) })))

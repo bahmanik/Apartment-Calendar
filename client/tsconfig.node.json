@@ -4,9 +4,8 @@
     "target": "ES2022",
     "lib": ["ES2023"],
     "module": "ESNext",
-    "noEmitOnError": false,
-    "composite": true,      // This is required for referenced projects.
-    "skipLibCheck": true 
+    "skipLibCheck": true,
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

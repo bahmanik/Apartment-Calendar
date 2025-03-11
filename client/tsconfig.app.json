@@ -5,9 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "noEmitOnError": false,
-    "composite": true,      // This is required for referenced projects.
-    "skipLibCheck": true
+    "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
