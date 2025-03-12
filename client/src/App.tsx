@@ -83,7 +83,7 @@ function App() {
 
             // Append new events and update state
             setEvents([...events, ...localEvents], () => {
-              setApartment("overView");
+              setApartment(vMode ? "overView" : apartment);
               setOpenOV(vMode ? true : false);
               setClicked("");
             });
