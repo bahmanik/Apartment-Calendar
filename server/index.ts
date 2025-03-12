@@ -37,7 +37,8 @@ app.get("/read", async (req, res) => {
 
 		if (apartment === "overView") {
 			// List all JSON files using fd command
-			const { stdout } = await execPromise("fd .json data/");
+			const DATA_PATH = path.join(__dirname, "data");
+			const { stdout } = await execPromise(`fd .json ${DATA_PATH}`);
 			const FULLPATHS = stdout.split("\n").filter(e => e);
 			const FILEPATHS = FULLPATHS.map(e => e.split("/").pop()).map(e => e?.slice(0, -5));
 

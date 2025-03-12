@@ -7,7 +7,7 @@ type effectsT = (nav: number, events: eventT[]) => [days: dayT[], dateDisplay: s
 export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventT[], setEvents: eventWithCallback, vMode: boolean) => {
 	useEffect(() => {
 		if (!vMode && apartment && apartment !== "overView") {
-			fetch("http://localhost:5000/write", {
+			fetch("/write", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ [apartment]: events }),
@@ -22,7 +22,7 @@ export const ApartmentEffect = (ApName: Record<string, string>, apartment: strin
 
 		const fetchData = async () => {
 			try {
-				const response = await fetch(`http://localhost:5000/read?name=${vMode ? "overView" : apartment}`);
+				const response = await fetch(`/read?name=${vMode ? "overView" : apartment}`);
 				const data = await response.json();
 				if (isMounted) {
 					setEvents(data); // Only set state if the component is still mounted
