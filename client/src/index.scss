@@ -29,6 +29,7 @@ $radius: 5px;
   box-sizing: border-box;
 }
 
+
 body {
   font-family: Vazirmatn, sans-serif;
   display: flex;
@@ -136,7 +137,7 @@ input::placeholder {
   font-size: 10px;
   display: flex;
   flex-wrap: wrap;
-  min-height: calc($dayHeightDesktop/6);
+  min-height: calc(($dayHeightDesktop - 15px) / 6);
   justify-content: center;
 }
 
@@ -415,10 +416,6 @@ input::placeholder {
     flex-direction: column;
   }
 
-  #container {
-    width: 100%;
-  }
-
   #weekdays div {
     padding: 5px;
     font-size: 0.52em;
@@ -432,7 +429,7 @@ input::placeholder {
   }
 
   .event {
-    min-height: calc($dayHeightMobile/6);
+    min-height: calc(($dayHeightMobile - 15px) / 6);
     justify-content: right;
   }
 
@@ -462,5 +459,24 @@ input::placeholder {
 
   #timeInput {
     font-size: 8px;
+  }
+
+  #container {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 100%;
+
+    >div {
+      margin-top: 10px;
+    }
+
+    #calendar {
+      margin-top: 3px;
+    }
+
+    #buttonGroup {
+      margin-top: auto;
+    }
   }
 }
