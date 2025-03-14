@@ -73,7 +73,7 @@ app.get("/read", async (req, res) => {
 });
 
 // Serve React frontend for unknown routes
-app.get("*", (req, res) => {
+app.get("*", (_, res) => {
 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 

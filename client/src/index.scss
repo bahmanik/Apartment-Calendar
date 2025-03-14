@@ -289,12 +289,6 @@ input::placeholder {
   background-color: $posButton;
 }
 
-#eventText {
-  font-size: 14px;
-}
-
-#fuzzyModal {}
-
 #modalBackDrop {
   top: 0px;
   left: 0px;
@@ -460,6 +454,10 @@ input::placeholder {
 
   #SObutton button {
     width: calc($buttonWidthDesktop/2);
+  }
+
+  .eventText {
+    font-size: 14px;
   }
 
   #timeInput {

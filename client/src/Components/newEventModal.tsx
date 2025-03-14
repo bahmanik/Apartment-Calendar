@@ -51,13 +51,13 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
           {CustomeInput({ name: "Number", placeHolder: "شماره", Handler: (arg: string) => isNaN(Number(arg)) || !arg })}
         </div>
         <div id='timeInput'>
-          {CustomeInput({ className: "miniInput", name: "entryTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
-          <label >:</label>
           {CustomeInput({ className: "miniInput", name: "entryTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
-          <label>زمان ورود</label>
-          {CustomeInput({ className: "miniInput", name: "exitTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
           <label >:</label>
+          {CustomeInput({ className: "miniInput", name: "entryTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          <label>زمان ورود</label>
           {CustomeInput({ className: "miniInput", name: "exitTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          <label >:</label>
+          {CustomeInput({ className: "miniInput", name: "exitTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
           <label>زمان تخلیه </label>
         </div>
         <div id='budgetInput'>
@@ -78,6 +78,9 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
               entryTime: `${form.entryTimeHour}:${form.entryTimeMinute}`,
               exitTime: `${form.exitTimeHour}:${form.exitTimeMinute}`
             };
+
+            //used latter to set defaults
+            const updatedForm = { ...form }
 
             // Start with a copy of the current errors (if needed)
             let computedErrors = { ...errors };
@@ -111,13 +114,29 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
               }
             });
 
-            // seting default for daysNum
-            if (form.daysNum.length === 0) {
-              setForm({ ...form, daysNum: "1" })
-              computedErrors = { ...computedErrors, daysNum: false }
+            // seting defaults
+            if (form.entryTimeHour.length === 0 && form.entryTimeMinute.length === 0) {
+              updatedForm.entryTimeHour = "14"
+              updatedForm.entryTimeMinute = "00"
+              computedErrors.entryTimeHour = false
+              computedErrors.entryTimeMinute = false
             }
+
+            if (form.exitTimeHour.length === 0 && form.exitTimeMinute.length === 0) {
+              updatedForm.exitTimeHour = "12"
+              updatedForm.exitTimeMinute = "00"
+              computedErrors.exitTimeHour = false
+              computedErrors.exitTimeMinute = false
+            }
+
+            if (form.daysNum.length === 0) {
+              updatedForm.daysNum = "1"
+              computedErrors.daysNum = false
+            }
+
             // Update the error state once
             setErrors(computedErrors);
+            setForm(updatedForm)
 
             // If there are no errors, then proceed with the save action.
             // We consider a field error-free if its value is false or undefined.

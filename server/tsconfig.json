@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // Enable latest features
+    // Enable latest ECMAScript features and DOM types (for browser support)
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "ESNext",
@@ -8,20 +8,22 @@
     "jsx": "react-jsx",
     "allowJs": true,
 
-    // Bundler mode
+    // Module resolution settings for bundler environments (e.g., Vite, Bun)
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    // Best practices
+    // Strict type-checking options
     "strict": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": false,
 
-    // Some stricter flags (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    // Allows default imports from modules using CommonJS exports
+    "esModuleInterop": true
   }
 }
+
