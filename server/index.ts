@@ -3,7 +3,13 @@ import { exec } from "child_process";
 import cors from "cors";
 import { promises as fs } from "fs";
 import { promisify } from "util";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import path from "path";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const execPromise = promisify(exec);
@@ -12,7 +18,7 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
 // Serve React frontend from the "client/build" folder
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "..", "client", "dist")))
 
 // Route to save data to a file
 app.post("/write", async (req, res) => {
@@ -74,7 +80,7 @@ app.get("/read", async (req, res) => {
 
 // Serve React frontend for unknown routes
 app.get("*", (_, res) => {
-	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"))
 });
 
 // Start server
