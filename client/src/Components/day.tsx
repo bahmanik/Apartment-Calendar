@@ -38,7 +38,7 @@ export const Day = ({ apartment, day, onClick, event, vMode }: { apartment: stri
         <div className="event">
           {foundEvent && (
             <div className={`${apartment} event`} key={foundEvent.date}>
-              {foundEvent.Fname}
+              {foundEvent.Lname}
             </div>
           )}
         </div>

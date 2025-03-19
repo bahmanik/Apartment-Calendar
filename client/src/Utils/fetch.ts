@@ -9,12 +9,9 @@ export function FLDAYS(jy: number, jm: number): { F: string, L: number } {
 
 export function JDATE(): { y: number, m: number, d: number } {
 	const currentDate = new Date()
-	const { jy, jm, jd } = jalaali.toJalaali(
-		currentDate.getFullYear(),
-		currentDate.getMonth(),
-		currentDate.getDate() + 1
-	)
-	return { y: jy, m: jm, d: jd }
+	const jDate = new Intl.DateTimeFormat("fa-IR-u-nu-latn").format(currentDate).split("/")
+
+	return { y: Number(jDate[0]), m: Number(jDate[1]) - 1, d: Number(jDate[2]) }
 }
 
 export const getObjectDepth = (obj: unknown): number => {
