@@ -1,4 +1,6 @@
 type eventWithCallback = (newValue: eventT[], callback?: ((state: eventT[]) => void) | undefined) => void
+type dayT = { value: number | "padding", isCurrentDay: boolean; date: string }
+
 
 interface eventT {
 	date: string,

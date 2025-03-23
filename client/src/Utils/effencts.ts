@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react"
 import { JDATE, formatMonth, FLDAYS } from '../Utils/fetch'
+import { useStateWithCallback } from "./useStateWithCallback";
 
-type dayT = { value: number | "padding", isCurrentDay: boolean; date: string }
+
 type effectsT = (nav: number, events: eventT[]) => [days: dayT[], dateDisplay: string]
 
-export const ApartmentEffect = (ApName: Record<string, string>, apartment: string, events: eventT[], setEvents: eventWithCallback, vMode: boolean) => {
+export const useApartmentEffect = (
+	ApName: Record<string, string>,
+	apartment: string,
+	vMode: boolean): [eventT[], (newValue: eventT[], callback?: (state: eventT[]) => void) => void] => {
+	const [events, setEvents] = useStateWithCallback<eventT[]>([])
 	useEffect(() => {
 		if (!vMode && apartment && apartment !== "overView") {
 			fetch("/write", {
@@ -43,7 +48,7 @@ export const ApartmentEffect = (ApName: Record<string, string>, apartment: strin
 			isMounted = false; // Cleanup function to set isMounted to false
 		};
 	}, [apartment]);
-	return
+	return [events, setEvents]
 }
 
 function EnToFa(Text: number) {
@@ -63,7 +68,7 @@ function EnToFa(Text: number) {
 	return A;
 }
 
-export const InitEffects: effectsT = (nav, events) => {
+export const useDayEffects: effectsT = (nav, events) => {
 	const [dateDisplay, setDateDisplay] = useState("");
 	const [days, setDays] = useState<dayT[]>([]);
 
@@ -104,3 +109,4 @@ export const InitEffects: effectsT = (nav, events) => {
 	}, [events, nav])
 	return [days, dateDisplay]
 }
+
