@@ -20,7 +20,10 @@ const ApName = {
   negar: "نگار",
 };
 
+let numRender = 0
+
 function App() {
+  console.log(++numRender)
   const [nav, setNav] = useState(0);
   const [clicked, setClicked] = useState<string>("");
   const [openFuzzy, setOpenFuzzy] = useState(false);
@@ -29,7 +32,7 @@ function App() {
   const [openOV, setOpenOV] = useState<boolean>(true);
 
   // Custom hooks managing events and day effects
-  const [events, setEvents] = useApartmentEffect(ApName, apartment, openOV);
+  const [events, setEvents, loading] = useApartmentEffect(ApName, apartment, openOV);
   const [days, dateDisplay] = useDayEffects(nav, events);
 
   // Close handler for modals
@@ -114,7 +117,7 @@ function App() {
         />
       )}
 
-      {!openOV && clicked && !getEventForDate(clicked) && (
+      {!loading && !openOV && clicked && !getEventForDate(clicked) && (
         <NewEventModal
           date={clicked}
           onClose={handleClose}
@@ -122,7 +125,7 @@ function App() {
         />
       )}
 
-      {!openOV && clicked && getEventForDate(clicked) && (
+      {!loading && !openOV && clicked && getEventForDate(clicked) && (
         <DeleteEventModal
           onClose={handleClose}
           event={getEventForDate(clicked)}

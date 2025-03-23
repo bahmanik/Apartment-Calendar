@@ -4,12 +4,20 @@ import { useStateWithCallback } from "./useStateWithCallback";
 
 
 type effectsT = (nav: number, events: eventT[]) => [days: dayT[], dateDisplay: string]
-
-export const useApartmentEffect = (
+type ApartmentEffectsT = (
 	ApName: Record<string, string>,
 	apartment: string,
-	vMode: boolean): [eventT[], (newValue: eventT[], callback?: (state: eventT[]) => void) => void] => {
+	vMode: boolean
+) => [
+		eventT[],
+		(newValue: eventT[], callback?: (state: eventT[]) => void) => void,
+		loading: boolean
+	]
+
+export const useApartmentEffect: ApartmentEffectsT = (ApName, apartment, vMode) => {
 	const [events, setEvents] = useStateWithCallback<eventT[]>([])
+	const [loading, setLoading] = useState<boolean>(false)
+
 	useEffect(() => {
 		if (!vMode && apartment && apartment !== "overView") {
 			fetch("/write", {
@@ -27,6 +35,7 @@ export const useApartmentEffect = (
 
 		const fetchData = async () => {
 			try {
+				setLoading(true)
 				const response = await fetch(`/read?name=${vMode ? "overView" : apartment}`);
 				const data = await response.json();
 				if (isMounted) {
@@ -35,6 +44,7 @@ export const useApartmentEffect = (
 			} catch (error) {
 				console.error("Fetch error:", error);
 			}
+			setLoading(false)
 		};
 
 		// Only fetch if apartment is truthy or meets certain conditions
@@ -48,7 +58,7 @@ export const useApartmentEffect = (
 			isMounted = false; // Cleanup function to set isMounted to false
 		};
 	}, [apartment]);
-	return [events, setEvents]
+	return [events, setEvents, loading]
 }
 
 function EnToFa(Text: number) {
