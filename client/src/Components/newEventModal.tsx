@@ -24,18 +24,35 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
     setErrors((pErrors => ({ ...pErrors, [name]: handler(value) })))
   }
 
-  const CustomeInput = ({ name, className, placeHolder, Handler }: { name: string, className?: string, placeHolder: string, Handler: (arg1: string) => boolean }) => {
-    return <>
-      <input
-        name={name}
-        value={form[name]}
-        className={`eventInput ${className} ${errors[name] ? 'error' : ''}`}
-        onChange={(e) => { onChange(e, Handler) }}
-        placeholder={placeHolder}
-        type="text"
-        required
-      />
-    </>
+  const CustomeInput = ({ name, className, placeHolder, Handler, numeric = false }: { name: string, className?: string, placeHolder: string, Handler: (arg1: string) => boolean, numeric?: boolean }) => {
+    if (numeric) {
+      return <>
+        <input
+          name={name}
+          value={form[name]}
+          className={`eventInput ${className} ${errors[name] ? 'error' : ''}`}
+          onChange={(e) => { onChange(e, Handler) }}
+          placeholder={placeHolder}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          required
+        />
+      </>
+    }
+    else {
+      return <>
+        <input
+          name={name}
+          value={form[name]}
+          className={`eventInput ${className} ${errors[name] ? 'error' : ''}`}
+          onChange={(e) => { onChange(e, Handler) }}
+          placeholder={placeHolder}
+          type="text"
+          required
+        />
+      </>
+    }
   }
 
   return (
@@ -48,22 +65,22 @@ const NewEventModal = ({ date, onSave, onClose }: { date: string, onSave: (arg: 
           {CustomeInput({ name: "Fname", placeHolder: "اسم", Handler: (arg: string) => !arg })}
         </div>
         <div id='numberInput'>
-          {CustomeInput({ name: "Number", placeHolder: "شماره", Handler: (arg: string) => isNaN(Number(arg)) || !arg })}
+          {CustomeInput({ name: "Number", placeHolder: "شماره", Handler: (arg: string) => isNaN(Number(arg)) || !arg, numeric: true })}
         </div>
         <div id='timeInput'>
-          {CustomeInput({ className: "miniInput", name: "entryTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          {CustomeInput({ className: "miniInput", name: "entryTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2, numeric: true })}
           <label >:</label>
-          {CustomeInput({ className: "miniInput", name: "entryTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          {CustomeInput({ className: "miniInput", name: "entryTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2, numeric: true })}
           <label>زمان ورود</label>
-          {CustomeInput({ className: "miniInput", name: "exitTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          {CustomeInput({ className: "miniInput", name: "exitTimeHour", placeHolder: "hh", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2, numeric: true })}
           <label >:</label>
-          {CustomeInput({ className: "miniInput", name: "exitTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
+          {CustomeInput({ className: "miniInput", name: "exitTimeMinute", placeHolder: "mm", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2, numeric: true })}
           <label>زمان تخلیه </label>
         </div>
         <div id='budgetInput'>
-          {CustomeInput({ name: "daysNum", placeHolder: "تعداد روزها", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2 })}
-          {CustomeInput({ name: "deposit", placeHolder: "بیعانه", Handler: (arg: string) => isNaN(Number(arg)) || !arg })}
-          {CustomeInput({ name: "totalAmount", placeHolder: "مبلغ کل", Handler: (arg: string) => isNaN(Number(arg)) || !arg })}
+          {CustomeInput({ name: "daysNum", placeHolder: "تعداد روزها", Handler: (arg: string) => isNaN(Number(arg)) || !arg || arg.length > 2, numeric: true })}
+          {CustomeInput({ name: "deposit", placeHolder: "بیعانه", Handler: (arg: string) => isNaN(Number(arg)) || !arg, numeric: true })}
+          {CustomeInput({ name: "totalAmount", placeHolder: "مبلغ کل", Handler: (arg: string) => isNaN(Number(arg)) || !arg, numeric: true })}
         </div>
 
         <button
